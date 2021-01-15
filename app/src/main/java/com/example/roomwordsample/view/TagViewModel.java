@@ -1,9 +1,12 @@
-package com.example.roomwordsample;
+package com.example.roomwordsample.view;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.roomwordsample.Entity.Tag;
+import com.example.roomwordsample.Repository;
 
 import java.util.List;
 
@@ -25,4 +28,6 @@ public class TagViewModel extends AndroidViewModel {
     public void insert(Tag tag){
         mRepository.insert(tag);
     }
+
+    public void delete(Tag tag){mRepository.delete(tag);}
 }

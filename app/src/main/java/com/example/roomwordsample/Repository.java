@@ -4,6 +4,11 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.roomwordsample.Entity.Tag;
+import com.example.roomwordsample.Entity.Word;
+import com.example.roomwordsample.roomdao.TagDao;
+import com.example.roomwordsample.roomdao.WordDao;
+
 import java.util.List;
 
 public class Repository {
@@ -12,7 +17,7 @@ public class Repository {
     private LiveData<List<Word>> mAllWords;
     private LiveData<List<Tag>> mAllTags;
 
-    Repository(Application application){
+    public Repository(Application application){
         WordRoomDatabase word_db = WordRoomDatabase.getDatabase(application);
         TagRoomDatabase tag_db = TagRoomDatabase.getDatabase(application);
         mWordDao = word_db.wordDao();
@@ -21,25 +26,30 @@ public class Repository {
         mAllTags = mTagDao.getAlphabetizedTags();
     }
 
-    LiveData<List<Word>> getmAllWords(){
+    public LiveData<List<Word>> getmAllWords(){
         return mAllWords;
     }
-    LiveData<List<Tag>> getmAllTags(){ return mAllTags; }
+    public LiveData<List<Tag>> getmAllTags(){ return mAllTags; }
 
-    void insert(Word word){
+    public void insert(Word word){
         WordRoomDatabase.databaseWriteExecutor.execute(() ->{
             mWordDao.insert(word);
         });
     }
-    void insert(Tag tag){
+    public void insert(Tag tag){
         TagRoomDatabase.databaseWriteExecutor.execute(() ->{
             mTagDao.insert(tag);
         });
     }
 
-    void  delete(Word word){
+    public void  delete(Word word){
         WordRoomDatabase.databaseWriteExecutor.execute(() ->{
             mWordDao.delete(word);
+        });
+    }
+    public void  delete(Tag tag){
+        TagRoomDatabase.databaseWriteExecutor.execute(() ->{
+            mTagDao.delete(tag);
         });
     }
 }

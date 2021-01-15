@@ -1,4 +1,4 @@
-package com.example.roomwordsample;
+package com.example.roomwordsample.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.roomwordsample.Entity.Tag;
+import com.example.roomwordsample.R;
+
 import java.util.List;
 
 public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
     private final LayoutInflater mInflater;
     private List<Tag> mTags;
+    private  onItemLongClickListener listener;
 
     //コンストラクタ（データソースを準備）
     TagListAdapter(Context context){
@@ -28,12 +32,24 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
     //ビューにデータを割り当て、リスト項目を生成
     @Override
     public void onBindViewHolder(TagViewHolder holder, int position){
+        Tag current = mTags.get(position);
         if (mTags != null){
-            Tag current = mTags.get(position);
             holder.tagItemView.setText(current.getTag());
         }else{
             holder.tagItemView.setText("No Word");
         }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listener.onLongClick(view, current.getTag());
+                return false;
+            }
+        });
+    }
+
+    public void setOnItemLongClickListener(onItemLongClickListener listener){
+        this.listener = listener;
     }
 
     void setmTags(List<Tag> tags){
@@ -47,5 +63,9 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
         if (mTags != null)
             return mTags.size();
         else return 0;
+    }
+
+    public interface onItemLongClickListener{
+        void onLongClick(View view, String text);
     }
 }

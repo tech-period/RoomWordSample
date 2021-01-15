@@ -1,4 +1,9 @@
-package com.example.roomwordsample;
+package com.example.roomwordsample.view;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,17 +12,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.roomwordsample.Entity.Tag;
+import com.example.roomwordsample.Entity.Word;
+import com.example.roomwordsample.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -45,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         //タグのRecyclerViewを設定（横スクロール）
         RecyclerView recyclerView2 = findViewById(R.id.recyclerview2);
         recyclerView2.setAdapter(tagAdapter);
-        recyclerView2.addItemDecoration(CustomItemDecoration.createDefaultDecoration(this));
+        //recyclerView2.addItemDecoration(CustomItemDecoration.createDefaultDecoration(this));
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView2.setLayoutManager(manager);
 
-        //ワードのRecyclerViewを設定
+        //ワードのRecyclerViewを設定（縦スクロール）
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setAdapter(wordAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -67,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
                 Word word = new Word(text);
                 Toast.makeText(MainActivity.this, text + "　を削除", Toast.LENGTH_SHORT).show();
                 mWordViewModel.delete(word);
+            }
+        });
+        tagAdapter.setOnItemLongClickListener(new TagListAdapter.onItemLongClickListener() {
+            @Override
+            public void onLongClick(View view, String text) {
+                //長押ししたデータをTag型で再定義してからDBから削除
+                Tag tag = new Tag(text);
+                Toast.makeText(MainActivity.this,text + "を削除", Toast.LENGTH_SHORT).show();
+                mTagViewModel.delete(tag);
             }
         });
 
@@ -101,12 +111,18 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
 
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
-            mWordViewModel.insert(word);
+            String tagFlag = data.getStringExtra("RESULT_TYPE");
+            if(tagFlag.equals("TAG")) {
+                Tag tag = new Tag(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+                mTagViewModel.insert(tag);
+            }else{
+                Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+                mWordViewModel.insert(word);
+            }
         }else {
             Toast.makeText(
                     getApplicationContext(),
-                    R.string.empty_not_saved,
+                    R.string.empty_not_saved_word,
                     Toast.LENGTH_LONG
             )
             .show();

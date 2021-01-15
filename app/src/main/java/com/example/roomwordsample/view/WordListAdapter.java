@@ -1,4 +1,4 @@
-package com.example.roomwordsample;
+package com.example.roomwordsample.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.roomwordsample.Entity.Word;
+import com.example.roomwordsample.R;
 
 import java.util.List;
 

@@ -8,6 +8,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.example.roomwordsample.Entity.Tag;
+import com.example.roomwordsample.roomdao.TagDao;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,20 +38,10 @@ public abstract class TagRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static Callback sRoomDatabaseCallback = new Callback(){
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db){
             super.onOpen(db);
-
-            databaseWriteExecutor.execute(()->{
-                TagDao dao = INSTANCE.tagDao();
-                dao.deleteAll();
-
-                Tag tag = new Tag("Hello");
-                dao.insert(tag);
-                tag = new Tag("World");
-                dao.insert(tag);
-            });
         }
     };
 }

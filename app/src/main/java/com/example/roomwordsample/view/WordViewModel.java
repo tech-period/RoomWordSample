@@ -1,9 +1,12 @@
-package com.example.roomwordsample;
+package com.example.roomwordsample.view;
 
 import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.roomwordsample.Entity.Word;
+import com.example.roomwordsample.Repository;
 
 import java.util.List;
 
