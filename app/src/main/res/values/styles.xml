@@ -11,6 +11,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginBottom">8dp</item>
         <item name="android:paddingLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
         <item name="android:background">@drawable/tag_frame_style</item>
         <item name="android:textAppearance">@android:style/TextAppearance.Large</item>
     </style>
