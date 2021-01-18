@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         WordListAdapter wordAdapter = new WordListAdapter(this);
         TagListAdapter tagAdapter = new TagListAdapter(this);
 
+        //region RecyclerViewの設定
         //タグのRecyclerViewを設定（横スクロール）
         RecyclerView recyclerView2 = findViewById(R.id.recyclerview2);
         recyclerView2.setAdapter(tagAdapter);
@@ -56,11 +57,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(wordAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        //endregion
+
         //Viewモデルを作成
         mWordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
         mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
 
-        //RecyclerViewの長押しリスナーを設定
+        //region RecyclerViewの長押しリスナーを設定
         wordAdapter.setOnItemLongClickListener(new WordListAdapter.onItemLongClickListener() {
             @Override
             public void onLongClick(View view,String text) {
@@ -79,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
                 mTagViewModel.delete(tag);
             }
         });
+
+        //endregion
 
         //全てのワードを取得
         mWordViewModel.getmAllWords().observe(this, new Observer<List<Word>>() {
@@ -107,9 +112,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //NewWord画面からの処理
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-
+        //requestCodeはstartActivityForResultの2つ目の引数の数値
         if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             String tagFlag = data.getStringExtra("RESULT_TYPE");
             if(tagFlag.equals("TAG")) {
@@ -119,13 +125,27 @@ public class MainActivity extends AppCompatActivity {
                 Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
                 mWordViewModel.insert(word);
             }
-        }else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved_word,
-                    Toast.LENGTH_LONG
-            )
-            .show();
+        }else if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_CANCELED){
+            String tagFlag = data.getStringExtra("RESULT_TYPE");
+            if(tagFlag.equals("TAG")){
+                toastNoItem(R.string.empty_not_saved_tag);
+            }else if (tagFlag.equals("WORD")){
+                toastNoItem(R.string.empty_not_saved_word);
+            }else{
+
+            }
+        }else{
+
         }
     }
+
+    //region private method
+    private void toastNoItem(int notice){
+        Toast.makeText(
+            getApplicationContext(),
+            notice,
+            Toast.LENGTH_LONG
+        ).show();
+    }
+    //endregion
 }

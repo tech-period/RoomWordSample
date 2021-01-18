@@ -1,13 +1,13 @@
 package com.example.roomwordsample.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.roomwordsample.R;
 import com.google.android.gms.ads.AdRequest;
@@ -41,6 +41,7 @@ public class NewWordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(mEditWordView.getText())){
+                    replyIntent.putExtra("RESULT_TYPE", "WORD");
                     setResult(RESULT_CANCELED,replyIntent);
                 }else {
                     String word = mEditWordView.getText().toString();
@@ -57,6 +58,7 @@ public class NewWordActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
                 if (TextUtils.isEmpty(mEditTagView.getText())){
+                    replyIntent.putExtra("RESULT_TYPE","TAG");
                     setResult(RESULT_CANCELED,replyIntent);
                 }else {
                     String tag = mEditTagView.getText().toString();
@@ -67,5 +69,12 @@ public class NewWordActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+    @Override
+    public void onBackPressed(){
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra("RESULT_TYPE","BACK_PRESSED");
+        setResult(RESULT_CANCELED,replyIntent);
+        finish();
     }
 }
