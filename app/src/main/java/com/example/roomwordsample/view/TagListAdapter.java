@@ -34,7 +34,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
     public void onBindViewHolder(TagViewHolder holder, int position){
         Tag current = mTags.get(position);
         if (mTags != null){
-            holder.tagItemView.setText(current.getTag());
+            holder.tagItemView.setText(current.getName());
         }else{
             holder.tagItemView.setText("No Word");
         }
@@ -42,7 +42,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listener.onLongClick(view, current.getTag());
+                listener.onLongClick(view, current.getName());
                 return false;
             }
         });
