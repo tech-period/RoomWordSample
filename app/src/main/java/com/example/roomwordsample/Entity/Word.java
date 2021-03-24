@@ -8,19 +8,44 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "word_table")
 public class Word {
 
-    //コンストラクタ
-    public Word(String word){
-        this.mWord = word;
+    public Word() {
     }
 
-    @PrimaryKey
-    @NonNull
-    @ColumnInfo(name = "word")
-    private String mWord;
+    public Word(@NonNull String name) {
+        Name = name;
+        Check = false;
+    }
 
+    @PrimaryKey(autoGenerate = true)
+    private int Id;
 
     @NonNull
-    public String getWord(){
-        return this.mWord;
+    private String Name;
+
+    private boolean Check;
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    @NonNull
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(@NonNull String name) {
+        Name = name;
+    }
+
+    public boolean isCheck() {
+        return Check;
+    }
+
+    public void setCheck(boolean check) {
+        Check = check;
     }
 }

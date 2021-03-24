@@ -34,7 +34,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
     public void onBindViewHolder(WordViewHolder holder,int position){
         Word current = mWords.get(position);
         if (mWords != null){
-            holder.wordItemView.setText(current.getWord());
+            holder.wordItemView.setText(current.getName());
         }else{
             holder.wordItemView.setText("No Word");
         }
@@ -42,7 +42,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listener.onLongClick(view,current.getWord());
+                listener.onLongClick(view,current.getName());
                 return false;
             }
         });
