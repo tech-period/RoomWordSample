@@ -42,6 +42,17 @@ public class Repository {
         });
     }
 
+    public void update(Word word){
+        WordRoomDatabase.databaseWriteExecutor.execute(() ->{
+            mWordDao.update(word);
+        });
+    }
+    public void update(Tag tag){
+        TagRoomDatabase.databaseWriteExecutor.execute(() ->{
+            mTagDao.update(tag);
+        });
+    }
+
     public void  delete(Word word){
         WordRoomDatabase.databaseWriteExecutor.execute(() ->{
             mWordDao.delete(word);

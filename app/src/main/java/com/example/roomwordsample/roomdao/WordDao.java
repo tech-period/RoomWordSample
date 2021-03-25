@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.example.roomwordsample.Entity.Word;
 
@@ -16,8 +17,12 @@ public interface WordDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Word word);
 
+    @Update
+    void update(Word word);
+
     @Delete
     void delete(Word word);
+
 
     @Query("DELETE FROM word_table")
     void deleteAll();

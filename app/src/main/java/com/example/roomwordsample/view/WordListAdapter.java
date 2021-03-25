@@ -15,6 +15,7 @@ import java.util.List;
 public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
     private final LayoutInflater mInflater;
     private List<Word> mWords;
+    private onItemClickListener clickListener;
     private onItemLongClickListener listener;
 
     //コンストラクタ（データソースを準備）
@@ -34,12 +35,20 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
     public void onBindViewHolder(WordViewHolder holder,int position){
         Word current = mWords.get(position);
         if (mWords != null){
-            holder.wordItemView.setText(current.getName());
+            holder.wordItemCheckbox.setChecked(current.isCheck());
+            holder.wordItemCheckbox.setText(current.getName());
         }else{
-            holder.wordItemView.setText("No Word");
+            holder.wordItemCheckbox.setText("No Word");
+            holder.wordItemCheckbox.setChecked(false);
         }
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.wordItemCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickListener.onClick(view,current);
+            }
+        });
+        holder.wordItemCheckbox.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 listener.onLongClick(view,current.getName());
@@ -48,6 +57,9 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
         });
     }
 
+    public void setOnItemClickListener(onItemClickListener listener){
+        this.clickListener = listener;
+    }
     public void setOnItemLongClickListener(onItemLongClickListener listener){
         this.listener = listener;
     }
@@ -65,7 +77,12 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
         else return 0;
     }
 
+    //region リスナーインターフェース
+    public interface onItemClickListener{
+        void onClick(View view,Word word);
+    }
     public interface onItemLongClickListener{
         void onLongClick(View view, String text);
     }
+    //endregion
 }

@@ -63,6 +63,14 @@ public class MainActivity extends AppCompatActivity {
         mWordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
         mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
 
+
+        wordAdapter.setOnItemClickListener(new WordListAdapter.onItemClickListener() {
+            @Override
+            public void onClick(View view,Word word) {
+                word.setCheck(!word.isCheck());
+                mWordViewModel.update(word);
+            }
+        });
         //region RecyclerViewの長押しリスナーを設定
         wordAdapter.setOnItemLongClickListener(new WordListAdapter.onItemLongClickListener() {
             @Override
