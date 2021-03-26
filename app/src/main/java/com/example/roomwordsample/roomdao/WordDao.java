@@ -30,6 +30,6 @@ public interface WordDao {
     @Query("SELECT * FROM word_table")
     LiveData<List<Word>> getWords();
 
-    @Query("SELECT * FROM word_table ORDER BY name ASC")
+    @Query("SELECT * FROM word_table ORDER BY `Check` ASC, name ASC")
     LiveData<List<Word>> getAlphabetizedWords();
 }

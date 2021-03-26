@@ -1,14 +1,22 @@
 package com.example.roomwordsample.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Build;
+import android.text.TextPaint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.roomwordsample.Entity.Word;
 import com.example.roomwordsample.R;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -35,8 +43,17 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
     public void onBindViewHolder(WordViewHolder holder,int position){
         Word current = mWords.get(position);
         if (mWords != null){
+            TextPaint paint = holder.wordItemCheckbox.getPaint();
+            if(current.isCheck()){
+                paint.setFlags(holder.wordItemCheckbox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                holder.wordItemCheckbox.setTextColor(Color.LTGRAY);
+            }else {
+                paint.reset();
+                holder.wordItemCheckbox.setTextColor(Color.WHITE);
+            }
             holder.wordItemCheckbox.setChecked(current.isCheck());
             holder.wordItemCheckbox.setText(current.getName());
+            holder.wordItemCheckbox.setTextSize(20);
         }else{
             holder.wordItemCheckbox.setText("No Word");
             holder.wordItemCheckbox.setChecked(false);

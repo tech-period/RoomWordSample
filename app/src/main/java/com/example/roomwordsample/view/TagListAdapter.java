@@ -38,6 +38,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
         }else{
             holder.tagItemView.setText("No Word");
         }
+        holder.tagItemView.setTextSize(20);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
