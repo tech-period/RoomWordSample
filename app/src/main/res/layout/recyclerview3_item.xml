@@ -4,20 +4,12 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView2"
+    <CheckBox
+        android:id="@+id/checkBoxTag"
         style="@style/tag_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginRight="6dp"
-        android:gravity="center_vertical"
-        android:paddingLeft="6dp"
-        android:paddingTop="3dp"
-        android:paddingRight="6dp"
-        android:paddingBottom="3dp"
-        android:textAllCaps="false"
-        android:textSize="18sp" />
+        android:textSize="20sp"
+        android:theme="@style/tg_checkBox" />
 
 </LinearLayout>

@@ -68,7 +68,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
         holder.wordItemCheckbox.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listener.onLongClick(view,current.getName());
+                listener.onLongClick(view,current);
                 return false;
             }
         });
@@ -99,7 +99,7 @@ public class WordListAdapter extends RecyclerView.Adapter<WordViewHolder> {
         void onClick(View view,Word word);
     }
     public interface onItemLongClickListener{
-        void onLongClick(View view, String text);
+        void onLongClick(View view, Word item);
     }
     //endregion
 }

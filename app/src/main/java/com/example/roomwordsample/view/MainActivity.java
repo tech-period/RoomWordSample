@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TagViewModel mTagViewModel;
 
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
+    public static final int ITEM_EDIT_ACTIVITY_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +75,16 @@ public class MainActivity extends AppCompatActivity {
         //region RecyclerViewの長押しリスナーを設定
         wordAdapter.setOnItemLongClickListener(new WordListAdapter.onItemLongClickListener() {
             @Override
-            public void onLongClick(View view,String text) {
+            public void onLongClick(View view,Word item) {
                 //長押ししたデータをWord型で再定義してDBから削除
-                Word word = new Word(text);
-                Toast.makeText(MainActivity.this, text + "　を削除", Toast.LENGTH_SHORT).show();
-                mWordViewModel.delete(word);
+                //Word word = new Word(text);
+                //Toast.makeText(MainActivity.this, text + "　を削除", Toast.LENGTH_SHORT).show();
+                //mWordViewModel.delete(word);
+                Intent intent = new Intent(getApplication(),ItemEditActivity.class);
+                intent.putExtra("ITEM_ID", item.getId());
+                intent.putExtra("ITEM_NAME",item.getName());
+                startActivity(intent);
+                //startActivityForResult(intent,ITEM_EDIT_ACTIVITY_REQUEST_CODE);
             }
         });
         tagAdapter.setOnItemLongClickListener(new TagListAdapter.onItemLongClickListener() {
@@ -87,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 //長押ししたデータをTag型で再定義してからDBから削除
                 Tag tag = new Tag(text);
                 Toast.makeText(MainActivity.this,text + "を削除", Toast.LENGTH_SHORT).show();
-                mTagViewModel.delete(tag);
+
             }
         });
 
@@ -114,6 +120,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
+                startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
+            }
+        });
+        //右下の+ボタンの定義(2)
+        FloatingActionButton fab2 = findViewById(R.id.fab2);
+        fab2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(MainActivity.this,ItemEditActivity.class);
                 startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
             }
         });

@@ -26,5 +26,10 @@
         <item name="colorControlNormal">@android:color/holo_orange_dark</item>
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="tg_checkBox">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
 </resources>

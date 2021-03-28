@@ -31,4 +31,9 @@ public interface TagDao {
 
     @Query("SELECT * FROM tag_table ORDER BY name ASC")
     LiveData<List<Tag>> getAlphabetizedTags();
+
+//    @Query("SELECT * FROM tag_table ORDER BY name LIKE :flag ASC")
+    @Query("SELECT * FROM tag_table WHERE name LIKE :flag")
+    LiveData<List<Tag>> getFilteredTags(String flag);
+    //List<Tag> getFilteredTags(String flag);
 }
