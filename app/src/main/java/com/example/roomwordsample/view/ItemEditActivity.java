@@ -90,9 +90,13 @@ public class ItemEditActivity extends AppCompatActivity implements TextWatcher {
 
         tagAdapter.setOnItemClickListener(new TagListAdapter2.onItemClickListener() {
             @Override
-            public void onClick(View view, int id) {
+            public void onClick(View view, int id, boolean isChecked) {
                 Relation relation = new Relation(itemId, id);
-                mTagViewModel.createRelation(relation);
+                if(isChecked){
+                    mTagViewModel.createRelation(relation);
+                }else{
+                    mTagViewModel.removeRelation(relation);
+                }
             }
         });
     }
@@ -110,8 +114,10 @@ public class ItemEditActivity extends AppCompatActivity implements TextWatcher {
         if(flag.equals("")){
             data = mTagViewModel.getmAllTags().getValue();
         }else {
-            mTagViewModel.setTags(mTagViewModel.getTags(flag));
+            data = mTagViewModel.getTags(flag).getValue();
+//            mTagViewModel.setTags(mTagViewModel.getTags(flag));
         }
+        tagAdapter.setmTags(data);
     }
 
     @Override

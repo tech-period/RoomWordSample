@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.roomwordsample.Entity.Relation;
 import com.example.roomwordsample.Entity.Tag;
@@ -17,6 +20,15 @@ public class TagViewModel extends AndroidViewModel {
     private LiveData<List<Tag>> mAllTags;
     private LiveData<List<Tag>> mTags;
     //private List<Tag> mTags;
+//    private MutableLiveData<String> searchText;
+//    private LiveData<List<Tag>> items = Transformations.map(searchText,text -> {
+//        if(text == null || text.length() == 0){
+//
+//        }else{
+//            mTags.getValue();
+//        }
+//        return null;
+//    });
     private String flag;
     private LiveData<List<Relation>> mRelations;
 
@@ -45,6 +57,7 @@ public class TagViewModel extends AndroidViewModel {
     public void delete(Tag tag){mRepository.delete(tag);}
 
     public void createRelation(Relation relation){mRepository.insert(relation);}
+    public void removeRelation(Relation relation){mRepository.delete(relation);}
 
     public LiveData<List<Relation>> getRelations(){return mRelations;}
 

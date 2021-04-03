@@ -11,6 +11,7 @@ import com.example.roomwordsample.Entity.Tag;
 import com.example.roomwordsample.Entity.Relation;
 import com.example.roomwordsample.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TagListAdapter2 extends RecyclerView.Adapter<TagViewHolder2> {
@@ -26,6 +27,8 @@ public class TagListAdapter2 extends RecyclerView.Adapter<TagViewHolder2> {
     }
     TagListAdapter2(Context context, int itemId){
         mInflater = LayoutInflater.from(context);
+        this.mTags = new ArrayList<>();
+        this.mRelations = new ArrayList<>();
         this.itemId = itemId;
     }
 
@@ -52,7 +55,7 @@ public class TagListAdapter2 extends RecyclerView.Adapter<TagViewHolder2> {
         holder.tagItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onClick(view, current.getId());
+                listener.onClick(view, current.getId(),holder.tagItemView.isChecked());
             }
         });
     }
@@ -70,6 +73,10 @@ public class TagListAdapter2 extends RecyclerView.Adapter<TagViewHolder2> {
         notifyDataSetChanged();
     }
 
+    void onFilterTags(String flag){
+
+    }
+
     //データの項目数を取得
     @Override
     public int getItemCount(){
@@ -80,6 +87,6 @@ public class TagListAdapter2 extends RecyclerView.Adapter<TagViewHolder2> {
 
     //リスナーインターフェース
     public interface onItemClickListener{
-        void onClick(View view, int id);
+        void onClick(View view, int id, boolean isChecked);
     }
 }
