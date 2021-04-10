@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/tag_select_button_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_padding"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="タグ選択" />
+    <TextView
+        android:id="@+id/tag_set_text_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_padding"
+        android:text="タグセット"
+        android:textSize="28sp"
+        app:layout_constraintTop_toBottomOf="@+id/tag_select_button_main"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        />
+    <net.cachapa.expandablelayout.ExpandableLayout
+        app:layout_constraintTop_toBottomOf="@+id/tag_set_text_main"
+        app:el_expanded="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/expand_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/ex_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_padding"
+                android:text="setA">
+            </com.google.android.material.button.MaterialButton>
+        </LinearLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <TextView
+        android:id="@+id/management_text_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@id/tag_set_text_main"
+        android:text="管理"
+        android:textSize="28sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textAlignment="center"
+        />
+    <net.cachapa.expandablelayout.ExpandableLayout
+        app:layout_constraintTop_toBottomOf="@id/management_text_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.google.android.material.button.MaterialButton>
+        </LinearLayout>
+    </net.cachapa.expandablelayout.ExpandableLayout>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView2"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
