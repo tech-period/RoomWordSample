@@ -1,6 +1,5 @@
 package com.example.roomwordsample.view;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -121,8 +120,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
-                startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
+//                Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
+//                startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
+                DialogFragment dialog = new TagAddDialogFragment();
+                dialog.show(getSupportFragmentManager(), "Sample");
             }
         });
         //右下の+ボタンの定義(2)
