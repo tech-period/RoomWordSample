@@ -19,6 +19,7 @@ import com.example.roomwordsample.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         WordListAdapter wordAdapter = new WordListAdapter(this);
         TagListAdapter tagAdapter = new TagListAdapter(this);
+
+        //BottomNavigationViewの設定
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         //region RecyclerViewの設定
         //タグのRecyclerViewを設定（横スクロール）

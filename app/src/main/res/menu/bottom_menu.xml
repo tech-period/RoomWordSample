@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+
+    <item
+        android:id="@+id/tags_icon"
+        android:icon="@drawable/baseline_tag_24"
+        android:title="Tags"
+        />
+    <item
+        android:id="@+id/items_icon"
+        android:icon="@drawable/baseline_auto_awesome_motion_24"
+        android:title="Items"
+        />
+    <item
+        android:id="@+id/select_tag_icon"
+        android:icon="@drawable/baseline_playlist_add_check_18"
+        android:title="SelectTag"
+        />
+</menu>
