@@ -43,6 +43,9 @@ dependencies {
     //ExpandableLayout
     implementation "net.cachapa.expandablelayout:expandablelayout:2.9.2"
 
+    //ViewPager2
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+
     //RecyclerView components
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc03"

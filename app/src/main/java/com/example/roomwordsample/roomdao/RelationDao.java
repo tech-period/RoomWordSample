@@ -9,7 +9,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.roomwordsample.Entity.Relation;
-import com.example.roomwordsample.Entity.Tag;
 
 import java.util.List;
 
@@ -35,4 +34,7 @@ public interface RelationDao {
 
     @Query("SELECT * FROM relation WHERE itemId = :itemId")
     List<Relation> getRelationsById(int itemId);
+
+    @Query("SELECT COUNT(itemId) FROM relation")
+    int getCount();
 }

@@ -94,4 +94,8 @@ public class Repository {
             mRelationDao.delete(relation);
         });
     }
+
+    public int getNumRows() {
+        return mRelationDao.getCount();
+    }
 }

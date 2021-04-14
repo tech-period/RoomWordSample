@@ -1,34 +1,36 @@
 package com.example.roomwordsample.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.roomwordsample.Entity.Tag;
-import com.example.roomwordsample.Entity.Word;
 import com.example.roomwordsample.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
-    private WordViewModel mWordViewModel;
-    private TagViewModel mTagViewModel;
+//    private static final int NUM_PAGES = 5;
+    private int NUM_PAGES;
+    private ViewPager2 viewPager;
+    private TabLayout tabLayout;
+    private FragmentStateAdapter pagerAdapter;
 
+    private ProgressBar progressBar;
+
+    private RelationViewModel mRelationViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int ITEM_EDIT_ACTIVITY_REQUEST_CODE = 2;
 
@@ -37,140 +39,96 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Test App ID
+        //Test Add ID
         MobileAds.initialize(this,"ca-app-pub-3940256099942544~3347511713");
         AdView adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
 
-        WordListAdapter wordAdapter = new WordListAdapter(this);
-        TagListAdapter tagAdapter = new TagListAdapter(this);
-
         //BottomNavigationViewの設定
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        //region RecyclerViewの設定
-        //タグのRecyclerViewを設定（横スクロール）
-        RecyclerView recyclerView2 = findViewById(R.id.recyclerview2);
-        recyclerView2.setAdapter(tagAdapter);
-        //recyclerView2.addItemDecoration(CustomItemDecoration.createDefaultDecoration(this));
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        recyclerView2.setLayoutManager(manager);
-
-        //ワードのRecyclerViewを設定（縦スクロール）
-        RecyclerView recyclerView = findViewById(R.id.recyclerview);
-        recyclerView.setAdapter(wordAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        //endregion
-
         //Viewモデルを作成
-        mWordViewModel = new ViewModelProvider(this).get(WordViewModel.class);
-        mTagViewModel = new ViewModelProvider(this).get(TagViewModel.class);
+        progressBar = findViewById(R.id.progressBar);
+        mRelationViewModel = new ViewModelProvider(this).get(RelationViewModel.class);
+        viewPager = findViewById(R.id.pager);
+        tabLayout = findViewById(R.id.tabs);
+        pagerAdapter = new ScreenSlidePagerAdapter(this);
 
+        //DBへのアクセスはメインスレッドでは行えないため、別スレッドで実行
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NUM_PAGES = mRelationViewModel.getNumRows();
+                viewPager.setAdapter(pagerAdapter);
 
-        wordAdapter.setOnItemClickListener(new WordListAdapter.onItemClickListener() {
-            @Override
-            public void onClick(View view,Word word) {
-                word.setCheck(!word.isCheck());
-                mWordViewModel.update(word);
+                new TabLayoutMediator(tabLayout, viewPager,
+                        (tab, position) -> tab.setText("My set" + (position + 1))
+                ).attach();
+                progressBar.setVisibility(View.GONE);
             }
-        });
-        //region RecyclerViewの長押しリスナーを設定
-        wordAdapter.setOnItemLongClickListener(new WordListAdapter.onItemLongClickListener() {
-            @Override
-            public void onLongClick(View view,Word item) {
-                //長押ししたデータをWord型で再定義してDBから削除
-                //Word word = new Word(text);
-                //Toast.makeText(MainActivity.this, text + "　を削除", Toast.LENGTH_SHORT).show();
-                //mWordViewModel.delete(word);
-                Intent intent = new Intent(getApplication(),ItemEditActivity.class);
-                intent.putExtra("ITEM_ID", item.getId());
-                intent.putExtra("ITEM_NAME",item.getName());
-                startActivity(intent);
-                //startActivityForResult(intent,ITEM_EDIT_ACTIVITY_REQUEST_CODE);
-            }
-        });
-        tagAdapter.setOnItemLongClickListener(new TagListAdapter.onItemLongClickListener() {
-            @Override
-            public void onLongClick(View view, String text) {
-                //長押ししたデータをTag型で再定義してからDBから削除
-                Tag tag = new Tag(text);
-                Toast.makeText(MainActivity.this,text + "を削除", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        //endregion
-
-        //全てのワードを取得
-        mWordViewModel.getmAllWords().observe(this, new Observer<List<Word>>() {
-            @Override
-            public void onChanged(@NonNull final List<Word> words) {
-                wordAdapter.setmWords(words);
-            }
-        });
-        //全てのタグを取得
-        mTagViewModel.getmAllTags().observe(this, new Observer<List<Tag>>() {
-            @Override
-            public void onChanged(@NonNull final List<Tag> tags) {
-                tagAdapter.setmTags(tags);
-            }
-        });
-
-        //右下の+ボタンの定義
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-//                Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
-//                startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
-                DialogFragment dialog = new TagAddDialogFragment();
-                dialog.show(getSupportFragmentManager(), "Sample");
-            }
-        });
-        //右下の+ボタンの定義(2)
-        FloatingActionButton fab2 = findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                DialogFragment dialog = new ItemAddDialogFragment();
-//                ItemAddDialogFragment dialog = new ItemAddDialogFragment();
-                dialog.show(getSupportFragmentManager(), "Sample");
-            }
-        });
+        }).start();
     }
 
-    //NewWord画面からの処理
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        //requestCodeはstartActivityForResultの2つ目の引数の数値
-        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
-            String tagFlag = data.getStringExtra("RESULT_TYPE");
-            if(tagFlag.equals("TAG")) {
-                Tag tag = new Tag(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
-                mTagViewModel.insert(tag);
-            }else{
-                Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
-                mWordViewModel.insert(word);
-            }
-        }else if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_CANCELED){
-            String tagFlag = data.getStringExtra("RESULT_TYPE");
-            if(tagFlag.equals("TAG")){
-                toastNoItem(R.string.empty_not_saved_tag);
-            }else if (tagFlag.equals("WORD")){
-                toastNoItem(R.string.empty_not_saved_word);
-            }else{
+    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+        public ScreenSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
+        }
 
-            }
-        }else{
+        @Override
+        public Fragment createFragment(int position) {
+            return new GroupedItemFragment();
+        }
 
+        @Override
+        public int getItemCount() {
+            return NUM_PAGES;
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        }
+    }
+
+    //region NewWord画面からの処理
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data){
+//        super.onActivityResult(requestCode,resultCode,data);
+//        //requestCodeはstartActivityForResultの2つ目の引数の数値
+//        if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
+//            String tagFlag = data.getStringExtra("RESULT_TYPE");
+//            if(tagFlag.equals("TAG")) {
+//                Tag tag = new Tag(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+//                mTagViewModel.insert(tag);
+//            }else{
+//                Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+//                mWordViewModel.insert(word);
+//            }
+//        }else if (requestCode == NEW_WORD_ACTIVITY_REQUEST_CODE && resultCode == RESULT_CANCELED){
+//            String tagFlag = data.getStringExtra("RESULT_TYPE");
+//            if(tagFlag.equals("TAG")){
+//                toastNoItem(R.string.empty_not_saved_tag);
+//            }else if (tagFlag.equals("WORD")){
+//                toastNoItem(R.string.empty_not_saved_word);
+//            }else{
+//
+//            }
+//        }else{
+//
+//        }
+//    }
+//endregion
+
     //region private method
+    //NewWord画面からNoItemが帰ってきた際のトースト
     private void toastNoItem(int notice){
         Toast.makeText(
             getApplicationContext(),
@@ -178,5 +136,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.LENGTH_LONG
         ).show();
     }
+
     //endregion
 }

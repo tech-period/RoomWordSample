@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/cardview_dark_background"
+    >
+
+    <HorizontalScrollView
+        android:id="@+id/tag_area"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="4dp"
+                android:layout_gravity="center_vertical"
+                app:fabSize="mini"
+                android:contentDescription="@string/add_word"
+                android:src="@drawable/ic_baseline_add_24" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:background="@color/cardview_dark_background"
+                android:padding="@dimen/small_padding"
+                tools:listitem="@layout/recyclerview2_item" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
+    <ScrollView
+        android:id="@+id/item_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/cardview_dark_background"
+                android:padding="@dimen/small_padding"
+                android:scrollbars="none"
+                tools:listitem="@layout/recyclerview_item" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/big_padding"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/cardview_dark_background"
+                app:fabSize="mini"
+                android:contentDescription="@string/add_word"
+                android:src="@drawable/ic_baseline_add_24" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
