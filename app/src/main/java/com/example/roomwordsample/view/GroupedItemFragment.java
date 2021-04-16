@@ -1,9 +1,11 @@
 package com.example.roomwordsample.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -82,6 +84,24 @@ public class GroupedItemFragment extends Fragment {
                 tagAdapter.setmTags(tags);
             }
         });
+
+        //region RecyclerViewの長押しリスナーを設定
+        wordAdapter.setOnItemLongClickListener(new WordListAdapter.onItemLongClickListener() {
+            @Override
+            public void onLongClick(View view,Word item) {
+                //長押ししたデータをWord型で再定義してDBから削除
+                //Word word = new Word(text);
+                //Toast.makeText(MainActivity.this, text + "　を削除", Toast.LENGTH_SHORT).show();
+                //mWordViewModel.delete(word);
+                Intent intent = new Intent(getActivity().getApplication(),ItemEditActivity.class);
+                intent.putExtra("ITEM_ID", item.getId());
+                intent.putExtra("ITEM_NAME",item.getName());
+                startActivity(intent);
+                //startActivityForResult(intent,ITEM_EDIT_ACTIVITY_REQUEST_CODE);
+            }
+        });
+
+        //endregion
 
         //TagAreaの+ボタンの定義
         FloatingActionButton fab = view.findViewById(R.id.fab);

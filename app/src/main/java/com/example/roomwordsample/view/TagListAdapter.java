@@ -15,7 +15,7 @@ import java.util.List;
 public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
     private final LayoutInflater mInflater;
     private List<Tag> mTags;
-    private  onItemLongClickListener listener;
+//    private  onItemLongClickListener listener;
 
     //コンストラクタ（データソースを準備）
     TagListAdapter(Context context){
@@ -40,18 +40,18 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
         }
         holder.tagItemView.setTextSize(20);
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listener.onLongClick(view, current.getName());
-                return false;
-            }
-        });
+//        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//                listener.onLongClick(view, current.getName());
+//                return false;
+//            }
+//        });
     }
 
-    public void setOnItemLongClickListener(onItemLongClickListener listener){
-        this.listener = listener;
-    }
+//    public void setOnItemLongClickListener(onItemLongClickListener listener){
+//        this.listener = listener;
+//    }
 
     void setmTags(List<Tag> tags){
         mTags = tags;
@@ -66,7 +66,7 @@ public class TagListAdapter extends RecyclerView.Adapter<TagViewHolder> {
         else return 0;
     }
 
-    public interface onItemLongClickListener{
-        void onLongClick(View view, String text);
-    }
+//    public interface onItemLongClickListener{
+//        void onLongClick(View view, String text);
+//    }
 }
