@@ -1,10 +1,13 @@
 package com.example.roomwordsample.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,9 +33,12 @@ public class MainActivity extends FragmentActivity {
 
     private ProgressBar progressBar;
 
+    private BottomNavigationView bottomNavigationView;
+
     private RelationViewModel mRelationViewModel;
     public static final int NEW_WORD_ACTIVITY_REQUEST_CODE = 1;
     public static final int ITEM_EDIT_ACTIVITY_REQUEST_CODE = 2;
+    public static final int ALL_ITEM_ACTIVITY_REQUEST_CODE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +52,18 @@ public class MainActivity extends FragmentActivity {
         adView.loadAd(adRequest);
 
         //BottomNavigationViewの設定
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.items_icon:
+                        Intent intent = new Intent(MainActivity.this, AllItemActivity.class);
+                        startActivity(intent);
+                }
+                return false;
+            }
+        });
 
         //Viewモデルを作成
         progressBar = findViewById(R.id.progressBar);
