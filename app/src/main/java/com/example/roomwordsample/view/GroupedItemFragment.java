@@ -101,6 +101,8 @@ public class GroupedItemFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+//                Intent intent = new Intent(MainActivity.this,NewWordActivity.class);
+//                startActivityForResult(intent,NEW_WORD_ACTIVITY_REQUEST_CODE);
                 DialogFragment tagDialog = new TagAddDialogFragment();
                 tagDialog.show(getFragmentManager(), "Sample");
             }
