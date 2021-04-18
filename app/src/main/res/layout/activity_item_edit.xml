@@ -8,19 +8,38 @@
     android:layout_height="match_parent"
     android:background="@color/cardview_dark_background">
 
-
+    <TextView
+        android:id="@+id/iten_name_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name : "
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/search_tag"/>
     <EditText
         android:id="@+id/edit_word2"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/min_height"
+        android:layout_marginVertical="@dimen/big_padding"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_word"
         android:inputType="textAutoComplete"
-        android:layout_margin="@dimen/big_padding"
+        android:minHeight="@dimen/min_height"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/search_tag"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="20sp" />
+        app:layout_constraintStart_toEndOf="@id/iten_name_tag"
+        app:layout_constraintEnd_toStartOf="@id/item_delete_botton"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/item_delete_botton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_delete_20"
+        app:layout_constraintBottom_toTopOf="@id/search_tag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/search_tag"
